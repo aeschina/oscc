@@ -215,13 +215,13 @@ typedef struct
  * @brief Minimum allowable torque value.
  *
  */
-#define MINIMUM_TORQUE_COMMAND ( -12.8 )
+#define MINIMUM_TORQUE_COMMAND ( -2.8 )
 
 /*
  * @brief Maximum allowable torque value.
  *
  */
-#define MAXIMUM_TORQUE_COMMAND ( 12.7 )
+#define MAXIMUM_TORQUE_COMMAND ( 2.7 )
 
 /*
  * @brief Minimum allowable steering DAC output. [volts]
@@ -259,7 +259,7 @@ typedef struct
  *
  * Equal to \ref STEERING_SPOOF_LOW_SIGNAL_VOLTAGE_MAX * \ref STEPS_PER_VOLT.
  */
-#define STEERING_SPOOF_LOW_SIGNAL_RANGE_MAX ( 3358 )
+#define STEERING_SPOOF_LOW_SIGNAL_RANGE_MAX ( 3158 )
 
 /*
  * @brief Minimum allowed value for the low spoof signal value. [steps]
@@ -273,7 +273,7 @@ typedef struct
  *
  * Equal to \ref STEERING_SPOOF_HIGH_SIGNAL_VOLTAGE_MAX * \ref STEPS_PER_VOLT.
  */
-#define STEERING_SPOOF_HIGH_SIGNAL_RANGE_MAX ( 3440 )
+#define STEERING_SPOOF_HIGH_SIGNAL_RANGE_MAX ( 3240 )
 
 /*
  * @brief Scalar value for the low spoof signal taken from a calibration curve.
