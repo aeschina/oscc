@@ -37,6 +37,9 @@ static float exponential_moving_average(
 
 static uint16_t filtered_diff = 0;
 
+static uint16_t filtered_out_high = 0;
+static uint16_t filtered_out_low = 0;
+
 
 void check_for_operator_override( void )
 {
@@ -135,6 +138,8 @@ void update_steering(
 {
     if ( g_steering_control_state.enabled == true )
     {
+        const float filter_alpha = 0.1;
+
         uint16_t spoof_high =
             constrain(
                 spoof_command_high,
@@ -147,9 +152,35 @@ void update_steering(
                 STEERING_SPOOF_LOW_SIGNAL_RANGE_MIN,
                 STEERING_SPOOF_LOW_SIGNAL_RANGE_MAX );
 
+        if (filtered_out_high == 0) {
+            filtered_out_high = spoof_high;
+        }
+
+        if (filtered_out_low == 0) {
+            filtered_out_low = spoof_low;
+        }
+
+        filtered_out_high = exponential_moving_average(
+            filter_alpha,
+            spoof_high,
+            filtered_out_high);
+
+        filtered_out_low = exponential_moving_average(
+            filter_alpha,
+            spoof_low,
+            filtered_out_low);
+
+        DEBUG_PRINT(filtered_out_high);
+        DEBUG_PRINT(", ");
+        DEBUG_PRINT(spoof_high);
+        DEBUG_PRINT(", low: ");
+        DEBUG_PRINT(filtered_out_low);
+        DEBUG_PRINT(", ");
+        DEBUG_PRINTLN(spoof_low);
+
         cli();
-        g_dac.outputA( spoof_high );
-        g_dac.outputB( spoof_low );
+        g_dac.outputA( filtered_out_high );
+        g_dac.outputB( filtered_out_low );
         sei();
      }
 }
