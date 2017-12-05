@@ -25,7 +25,9 @@ int main( void )
 
     init_communication_interfaces( );
 
+#ifdef OSCC_FAULTS
     start_timers( );
+#endif
 
     DEBUG_PRINTLN( "init complete" );
 
@@ -35,7 +37,9 @@ int main( void )
 
         accumulator_maintain_pressure( );
 
+#ifdef OPERATOR_OVERRIDE
         check_for_operator_override( );
+#endif
 
         update_brake( );
     }

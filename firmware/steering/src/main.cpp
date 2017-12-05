@@ -22,7 +22,9 @@ int main( void )
 
     init_communication_interfaces( );
 
+#ifdef OSCC_FAULTS
     start_timers( );
+#endif
 
     DEBUG_PRINTLN( "init complete" );
 
@@ -30,7 +32,7 @@ int main( void )
     {
         check_for_incoming_message( );
 
-#ifdef STEERING_OVERRIDE
+#ifdef OPERATOR_OVERRIDE
         check_for_operator_override( );
 #endif
     }
