@@ -191,11 +191,15 @@ int main( int argc, char **argv )
                 else { // within range, send commanded value and increment
                     printf("Sending command: %f\n", commanded_value);
 
+                    // uncomment one of these depending on which firmware you are testing
+                    // DON'T FORGET to set the appropriate min command value above
+
                     // ret = oscc_publish_steering_torque(commanded_value);
                     // ret = oscc_publish_brake_position(commanded_value);
                     // ret = oscc_publish_throttle_position(commanded_value);
                 }
 
+                // should actually be trying to determine if the vehicle has reported a fault so that we can see the minimum failing command.
                 commanded_value += scalar;
 
                 update_timestamp = get_timestamp_micro();
