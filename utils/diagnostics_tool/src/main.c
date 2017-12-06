@@ -169,6 +169,13 @@ int main( int argc, char **argv )
 
     if ( ret == OSCC_OK )
     {
+        static const float max = 1;
+        static const float min = -1.0; // uncomment for steering
+        // static const float min = 0; // uncomment for throttle/brake
+
+        static double commanded_value = 0.0;
+        static double scalar = 0.1;
+
         // this is a high frequency loop
         while ( ret == OSCC_OK && error_thrown == OSCC_OK )
         {
@@ -176,7 +183,21 @@ int main( int argc, char **argv )
 
             // low frequency loop -- do heavy lifting, send commands, whatever.
             if ( elapsed_time > COMMANDER_UPDATE_INTERVAL_MICRO )
-            {
+            {             
+                // reached limit, change direction
+                if (commanded_value > max || commanded_value < min) {
+                    scalar *= -1;
+                }
+                else { // within range, send commanded value and increment
+                    printf("Sending command: %f\n", commanded_value);
+
+                    // ret = oscc_publish_steering_torque(commanded_value);
+                    // ret = oscc_publish_brake_position(commanded_value);
+                    // ret = oscc_publish_throttle_position(commanded_value);
+                }
+
+                commanded_value += scalar;
+
                 update_timestamp = get_timestamp_micro();
             }
 
